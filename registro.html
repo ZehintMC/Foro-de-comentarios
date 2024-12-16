@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Cuenta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .registro-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #759fd0;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        button:hover {
+            background-color: #759fd0;
+        }
+        .login-link {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #759fd0;
+            text-decoration: none;
+            display: block;
+        }
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="registro-container">
+        <h1>Crear Cuenta</h1>
+        <form id="registro-form">
+            <input type="text" placeholder="Nombre de usuario" required>
+            <input type="email" placeholder="Correo electrónico" required>
+            <input type="password" placeholder="Contraseña" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        <a href="login.html" class="login-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+    </div>
+
+    <script>
+        document.getElementById('registro-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nombreUsuario = event.target.querySelector('input[type="text"]').value.trim();
+            const email = event.target.querySelector('input[type="email"]').value.trim();
+            const password = event.target.querySelector('input[type="password"]').value;
+
+            if (nombreUsuario.length < 3) {
+                alert("El nombre de usuario debe tener al menos 3 caracteres.");
+                return;
+            }
+            if (!email.includes("@")) {
+                alert("Por favor, ingresa un correo válido.");
+                return;
+            }
+            if (password.length < 8) {
+                alert("La contraseña debe tener al menos 8 caracteres.");
+                return;
+            }
+
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            usuarios.push({ nombre: nombreUsuario, email, password });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            localStorage.setItem('usuarioActual', nombreUsuario);
+
+            alert(`¡Bienvenido, ${nombreUsuario}! Tu cuenta se ha creado con éxito.`);
+            window.location.href = 'foro.html';
+        });
+    </script>
+</body>
+</html>
